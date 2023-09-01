@@ -29,7 +29,6 @@ export default class Archer extends GameObjects.GameObject {
         this.position = position;
 
         this.state = 'attacking';
-        this._create();
         this._makeTimeline();
         this._makeEvents();
     }
@@ -203,11 +202,11 @@ export default class Archer extends GameObjects.GameObject {
 
     private _makeEvents() {
         this.on('state:standing', () => {
-            if (this.attackingTimeline?.isPlaying()) this._reset();
+            this._reset();
             this.standingTimeline?.reset();
         });
         this.on('state:attacking', () => {
-            if (this.standingTimeline?.isPlaying()) this._reset();
+            this._reset();
             this.attackingTimeline?.reset();
         });
 
