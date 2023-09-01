@@ -36,12 +36,16 @@ export class EnermyB extends Physics.Arcade.Sprite {
 
     private collider() {
         if (!this.scene.castle) return;
-        this.scene.physics.add.collider(this.enermy, this.scene.castle, () => {
+        const _colliderEvent = this.scene.physics.add.collider(this.enermy, this.scene.castle, () => {
             this.enermy.setVelocityX(0);
             this.scene.castle?.setVelocityX(0);
             this.enermy.setScale(1).anims.play('enermyBJump');
 
             this.scene.config?.emit('attack:gauge', this.damage);
+
+            this.enermy.removeInteractive();
+            this.emit('jumpOut');
+            this.scene.physics.world.removeCollider(_colliderEvent);
         });
 
         this.enermy.setInteractive({ draggable: true });
@@ -78,6 +82,15 @@ export class EnermyB extends Physics.Arcade.Sprite {
             this.enermy.anims.timeScale = 2;
         });
 
-        this.enermy.on('jumpOut', () => {});
+        this.on('jumpOut', () => {
+            this.scene.tweens.add({
+                targets: this.enermy,
+                y: '-=100',
+                alpha: 0,
+                ease: 'Power1',
+                duration: 500,
+                onComplete: () => this.enermy.destroy(),
+            });
+        });
     }
 }
