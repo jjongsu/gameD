@@ -24,7 +24,7 @@ export class HPGauge extends Phaser.GameObjects.Group {
         this.hpText = this.scene.add.text(textX + 3, textY, 'HP', { strokeThickness: 2, stroke: '#000000', fontSize: '14pt' }).setOrigin(0, 0.5);
 
         this.hpNumber = this.scene.add
-            .text(numberX - 3, numberY, scene.config.maxHp.toString(), { strokeThickness: 2, stroke: '#000000', fontSize: '12pt' })
+            .text(numberX - 3, numberY, scene.config!.maxHp.toString(), { strokeThickness: 2, stroke: '#000000', fontSize: '12pt' })
             .setOrigin(1, 1);
 
         super.add(this.container);
@@ -37,14 +37,9 @@ export class HPGauge extends Phaser.GameObjects.Group {
 
     private _makeEvent() {
         super.on('set:gauge', () => {
-            this.hpNumber.setText(this.scene.config.hp.toString());
-            const ratioGauge = this.scene.config.hp / this.scene.config.maxHp;
+            this.hpNumber.setText(this.scene.config!.hp.toString());
+            const ratioGauge = this.scene.config!.hp / this.scene.config!.maxHp;
             this.fill.setScale(ratioGauge, 1);
-        });
-
-        super.on('attack:gauge', (value: number) => {
-            this.scene.config.hp -= value;
-            super.emit('set:gauge');
         });
     }
 }

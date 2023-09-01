@@ -37,7 +37,7 @@ export class EnermyB extends Physics.Arcade.Sprite {
             this.enermy.setVelocityX(0);
             this.scene.castle?.setVelocityX(0);
             this.enermy.setScale(1).anims.play('enermyBJump');
-            this.scene.HPGauge?.emit('attack:gauge', 100);
+            this.scene.config?.emit('attack:gauge', 100);
         });
 
         this.enermy.setInteractive({ draggable: true });

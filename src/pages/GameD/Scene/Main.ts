@@ -7,7 +7,7 @@ import { config } from '../Config/Config';
 import { HPGauge } from '../Component/HPGauge';
 
 export default class Main extends Scene {
-    config;
+    config?: config;
     archerGroup?: Archer[];
     attackBtn?: GameObjects.Image;
     fastBtn?: fastBtn;
@@ -18,10 +18,11 @@ export default class Main extends Scene {
 
     constructor() {
         super({ key: 'main' });
-        this.config = new config({});
     }
 
     create() {
+        this.config = new config({ scene: this });
+
         this.add.image(0, 0, 'background').setOrigin(0, 0);
         this.castle = this.physics.add.image(310, 300, 'castle');
 
@@ -67,7 +68,7 @@ export default class Main extends Scene {
             delay: 2000,
             repeat: -1,
             callback: () => {
-                this.enermyBGroup = [...this.enermyBGroup, new EnermyB(this, { y: Math.Between(300, 360) }, this.config.fastLevel)];
+                this.enermyBGroup = [...this.enermyBGroup, new EnermyB(this, { y: Math.Between(300, 360) }, this.config?.fastLevel!)];
             },
         });
 

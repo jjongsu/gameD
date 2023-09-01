@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { background, castle, hpContainer, hpFill, readyBackground, readyChain, readyPlayButton } from '../../../assets/gameD/image/background';
+import { background, btnUpgrade, castle, hpContainer, hpFill, readyBackground, readyChain, readyPlayButton } from '../../../assets/gameD/image/background';
 import { archerBody, archerFoot, archerHandA, archerHandB, archerHead, archerShadow, arrow } from '../../../assets/gameD/image/archer';
 import {
     btnBattle,
@@ -61,6 +61,7 @@ export default class Preload extends Scene {
         this.load.image('settingIcon', settingIcon);
         this.load.image('hpContainer', hpContainer);
         this.load.image('hpFill', hpFill);
+        this.load.image('btnUpgrade', btnUpgrade);
 
         this.load.on('progress', (value: number) => this.progressLoading(value));
         this.load.on('complete', () => this.next());

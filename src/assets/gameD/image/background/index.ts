@@ -13,3 +13,5 @@ export { default as castle } from './castle.png';
 export { default as hpContainer } from './large_container.png';
 export { default as waveFill } from './large_white_fill.png';
 export { default as hpFill } from './large_red_fill.png';
+
+export { default as btnUpgrade } from './btn_upgrade.png';

@@ -53,14 +53,7 @@ export class fastBtn extends GameObjects.Image {
         this.level = this.level === 1 ? 2 : 1;
         this.btn.setTexture(this._textureName(this.level));
         this.text.setText(this.level + 'x');
-        this.scene.tweens.setGlobalTimeScale(this.level);
-        this.scene.physics.world.timeScale = 1 / this.level;
-        this.scene.time.timeScale = this.level;
-
-        this.scene.config.fastLevel = this.level;
-        this.scene.children.each((child) => {
-            if (child instanceof Physics.Arcade.Sprite) child.emit('fast:' + this.level);
-        });
+        this.scene.config?.emit('setting:fast', this.level);
     }
 
     private _textureName(level: 1 | 2) {
