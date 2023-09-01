@@ -1,0 +1,12 @@
+export { default as btnBattle } from './btn_battle.png';
+export { default as btnExit } from './btn_exit.png';
+export { default as btnFast1 } from './btn_fast1.png';
+export { default as btnFast2 } from './btn_fast2.png';
+export { default as btnHome } from './btn_home.png';
+export { default as btnPause } from './btn_pause.png';
+export { default as btnRetry } from './btn_retry.png';
+export { default as btnCoinReward } from './coin-reward-btn-x.png';
+export { default as btnCoin } from './coin.png';
+export { default as btnCrystal } from './crystal.png';
+export { default as levelContainer } from './levelContainer.png';
+export { default as settingIcon } from './settingIcon.png';
