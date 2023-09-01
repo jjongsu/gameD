@@ -36,7 +36,7 @@ export default class Ready extends Scene {
                     targets: [readyChain, btnBackground, btnText],
                     y: '+=100',
                     duration: 200,
-                    onStart: (tween, targets) => {
+                    onStart: (_tween, targets) => {
                         targets.forEach((target: Phaser.GameObjects.Image | Phaser.GameObjects.Text) => target.setVisible(true));
                     },
                 },
