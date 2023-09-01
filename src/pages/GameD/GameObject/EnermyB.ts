@@ -82,11 +82,12 @@ export class EnermyB extends Physics.Arcade.Sprite {
             this.enermy.anims.timeScale = 2;
         });
 
-        this.on('jumpOut', () => {
+        super.on('jumpOut', () => {
             this.scene.tweens.add({
                 targets: this.enermy,
                 y: '-=100',
                 alpha: 0,
+                delay: 500,
                 ease: 'Power1',
                 duration: 500,
                 onComplete: () => this.enermy.destroy(),

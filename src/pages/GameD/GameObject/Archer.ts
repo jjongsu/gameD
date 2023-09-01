@@ -72,43 +72,21 @@ export default class Archer extends GameObjects.GameObject {
             .setDepth(this.layer['character0']);
     }
 
-    // private _destroy() {
-    //     this.archerShadow?.destroy(true);
-    //     this.archerFootA?.destroy(true);
-    //     this.archerFootB?.destroy(true);
-    //     this.archerBody?.destroy(true);
-    //     this.archerHead?.destroy(true);
-    //     this.archerHandA?.destroy(true);
-    //     this.archerHandB?.destroy(true);
-    // }
+    private _destroy() {
+        this.archerShadow?.destroy(true);
+        this.archerFootA?.destroy(true);
+        this.archerFootB?.destroy(true);
+        this.archerBody?.destroy(true);
+        this.archerHead?.destroy(true);
+        this.archerHandA?.destroy(true);
+        this.archerHandB?.destroy(true);
+    }
 
-    // private _reset() {
-    //     this.archerShadow
-    //         ?.setPosition(this.position.x, this.position.y + 20)
-    //         .setScale(0.7)
-    //         .setAngle(90);
-    //     this.archerFootA
-    //         ?.setPosition(this.position.x - 5, this.position.y + 15)
-    //         .setScale(0.75)
-    //         .setAngle(95);
-    //     this.archerFootB
-    //         ?.setPosition(this.position.x + 5, this.position.y + 15)
-    //         .setScale(0.65)
-    //         .setAngle(100);
-    //     this.archerBody?.setPosition(this.position.x, this.position.y - 1).setAngle(90);
-    //     this.archerHead
-    //         ?.setPosition(this.position.x + 1, this.position.y - 26)
-    //         .setScale(0.75)
-    //         .setAngle(90);
-    //     this.archerHandA
-    //         ?.setPosition(this.position.x - 10, this.position.y - 3)
-    //         .setScale(0.7)
-    //         .setAngle(90);
-    //     this.archerHandB
-    //         ?.setPosition(this.position.x + 15, this.position.y)
-    //         .setScale(0.8)
-    //         .setAngle(90);
-    // }
+    private _reset() {
+        this._destroy();
+        this._create();
+        this._makeTimeline();
+    }
 
     private _makeTimeline() {
         this.standingTimeline = this.scene.add.timeline([
@@ -225,11 +203,11 @@ export default class Archer extends GameObjects.GameObject {
 
     private _makeEvents() {
         this.on('state:standing', () => {
-            this.attackingTimeline?.stop();
+            if (this.attackingTimeline?.isPlaying()) this._reset();
             this.standingTimeline?.reset();
         });
         this.on('state:attacking', () => {
-            this.standingTimeline?.stop();
+            if (this.standingTimeline?.isPlaying()) this._reset();
             this.attackingTimeline?.reset();
         });
 

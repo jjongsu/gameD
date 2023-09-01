@@ -22,13 +22,13 @@ export class config extends GameObjects.GameObject {
             if (this.hp <= 0) return;
             this.hp -= value;
             if (this.hp <= 0) {
-                this.scene.cameras.add().fade(1000);
+                this.scene.cameras.main.fade(1000);
                 this.scene.time.delayedCall(2000, () => {
                     this.scene.scene.stop('main');
                     this.scene.scene.launch('end');
                 });
             } else {
-                this.scene.cameras.add().shake(500, 0.005);
+                this.scene.cameras.main.shake(500, 0.005);
             }
             this.scene.HPGauge?.emit('set:gauge');
         });
