@@ -13,6 +13,12 @@ export default class End extends Phaser.Scene {
         this.add.image(0, 0, 'readyBackground').setOrigin(0, 0);
 
         const resetBtn = this.add.image(this.center.x, this.center.y - 50, 'btnExit').setScale(3);
+        resetBtn.setInteractive().on('pointerover', () => {
+            resetBtn.setScale(3.2);
+        });
+        resetBtn.setInteractive().on('pointerout', () => {
+            resetBtn.setScale(3);
+        });
         resetBtn.setInteractive().on('pointerdown', () => {
             location.reload();
         });
