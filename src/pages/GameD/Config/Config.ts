@@ -19,10 +19,16 @@ export class config extends GameObjects.GameObject {
 
     private _makeEvent() {
         super.on('attack:gauge', (value: number) => {
+            if (this.hp <= 0) return;
             this.hp -= value;
             if (this.hp <= 0) {
-                this.scene.scene.stop('main');
-                this.scene.scene.launch('end');
+                this.scene.cameras.add().fade(1000);
+                this.scene.time.delayedCall(2000, () => {
+                    this.scene.scene.stop('main');
+                    this.scene.scene.launch('end');
+                });
+            } else {
+                this.scene.cameras.add().shake(500, 0.005);
             }
             this.scene.HPGauge?.emit('set:gauge');
         });

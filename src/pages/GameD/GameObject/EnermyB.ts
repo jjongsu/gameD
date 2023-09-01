@@ -6,8 +6,9 @@ export class EnermyB extends Physics.Arcade.Sprite {
     y;
     enermy: Physics.Arcade.Sprite;
     scene: Main;
+    damage;
 
-    constructor(scene: Main, position: { x?: number; y: number }, initFast: number) {
+    constructor(scene: Main, position: { x?: number; y: number }, initFast: number, damage?: number) {
         const { x = scene.game.canvas.width, y } = position;
         super(scene, x, y, 'enermyBWalk');
         this.x = x;
@@ -27,6 +28,8 @@ export class EnermyB extends Physics.Arcade.Sprite {
 
         this.enermy.setVelocityX(-50).anims.play('enermyBWalk');
 
+        this.damage = damage ?? 100;
+
         this.collider();
         this._makeEvent();
     }
@@ -37,7 +40,8 @@ export class EnermyB extends Physics.Arcade.Sprite {
             this.enermy.setVelocityX(0);
             this.scene.castle?.setVelocityX(0);
             this.enermy.setScale(1).anims.play('enermyBJump');
-            this.scene.config?.emit('attack:gauge', 100);
+
+            this.scene.config?.emit('attack:gauge', this.damage);
         });
 
         this.enermy.setInteractive({ draggable: true });
@@ -73,5 +77,7 @@ export class EnermyB extends Physics.Arcade.Sprite {
         this.enermy.on('fast:2', () => {
             this.enermy.anims.timeScale = 2;
         });
+
+        this.enermy.on('jumpOut', () => {});
     }
 }

@@ -93,10 +93,9 @@ export default class Main extends Scene {
         this.attackBtn = this.add.image(880, 480, 'btnBattle');
 
         this.attackBtn.setInteractive().on('pointerdown', () => {
-            // this.archerGroup?.forEach((el) => {
-            //     el.state === 'standing' ? el.setObjectState('attacking') : el.setObjectState('standing');
-            // });
-            this.HPGauge?.emit('attack:gauge', 100);
+            this.archerGroup?.forEach((el) => {
+                el.state === 'standing' ? el.setObjectState('attacking') : el.setObjectState('standing');
+            });
         });
     }
 }
