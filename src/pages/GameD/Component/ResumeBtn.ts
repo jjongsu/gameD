@@ -1,7 +1,7 @@
 import { Scene } from 'phaser';
 import PauseBtn from './PauseBtn';
 
-export class PauseStateBtn extends PauseBtn {
+export class ResumeBtn extends PauseBtn {
     constructor(scene: Scene) {
         super(scene, {});
 

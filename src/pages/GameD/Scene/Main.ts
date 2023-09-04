@@ -1,4 +1,4 @@
-import { GameObjects, Math, Physics, Scene } from 'phaser';
+import { Math, Physics, Scene } from 'phaser';
 import Archer from '../GameObject/Archer';
 import { fastBtn } from '../Component/FastBtn';
 import { EnermyA } from '../GameObject/EnermyA';
