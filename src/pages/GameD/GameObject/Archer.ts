@@ -28,7 +28,7 @@ export default class Archer extends GameObjects.GameObject {
 
         this.position = position;
 
-        this.state = 'attacking';
+        this.state = 'standing';
         this._makeTimeline();
         this._makeEvents();
     }
@@ -79,6 +79,8 @@ export default class Archer extends GameObjects.GameObject {
         this.archerHead?.destroy(true);
         this.archerHandA?.destroy(true);
         this.archerHandB?.destroy(true);
+        this.standingTimeline?.destroy();
+        this.attackingTimeline?.destroy();
     }
 
     private _reset() {
