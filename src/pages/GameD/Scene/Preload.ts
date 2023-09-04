@@ -11,6 +11,7 @@ import {
     btnFast2,
     btnHome,
     btnPause,
+    btnPlay,
     btnRetry,
     levelContainer,
     settingIcon,
@@ -53,6 +54,7 @@ export default class Preload extends Scene {
         this.load.image('btnFast2', btnFast2);
         this.load.image('btnHome', btnHome);
         this.load.image('btnPause', btnPause);
+        this.load.image('btnPlay', btnPlay);
         this.load.image('btnRetry', btnRetry);
         this.load.image('btnCoinReward', btnCoinReward);
         this.load.image('btnCoin', btnCoin);

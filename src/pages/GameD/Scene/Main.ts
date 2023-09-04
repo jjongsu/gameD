@@ -5,16 +5,19 @@ import { EnermyA } from '../GameObject/EnermyA';
 import { EnermyB } from '../GameObject/EnermyB';
 import { config } from '../Config/Config';
 import { HPGauge } from '../Component/HPGauge';
+import AttackBtn from '../Component/AttackBtn';
+import PauseBtn from '../Component/PauseBtn';
 
 export default class Main extends Scene {
     config?: config;
     archerGroup?: Archer[];
-    attackBtn?: GameObjects.Image;
+    attackBtn?: AttackBtn;
     fastBtn?: fastBtn;
     castle?: Physics.Arcade.Image;
     enermyAGroup: EnermyA[] = [];
     enermyBGroup: EnermyB[] = [];
     HPGauge?: HPGauge;
+    pauseBtn?: PauseBtn;
 
     constructor() {
         super({ key: 'main' });
@@ -62,7 +65,7 @@ export default class Main extends Scene {
             archer16,
         ];
 
-        this.fastBtn = new fastBtn(this, { x: 800, y: 30 }, 1);
+        this.fastBtn = new fastBtn(this, {}, 1);
 
         this.time.addEvent({
             delay: 2000,
@@ -88,14 +91,12 @@ export default class Main extends Scene {
             if (gameObject.getData('who') === 'enermy') gameObject.x = dragX;
         });
 
-        this.HPGauge = new HPGauge(this);
-
-        this.attackBtn = this.add.image(880, 480, 'btnBattle');
-
-        this.attackBtn.setInteractive().on('pointerdown', () => {
-            this.archerGroup?.forEach((el) => {
-                el.state === 'standing' ? el.setObjectState('attacking') : el.setObjectState('standing');
-            });
+        this.events.on('resume', () => {
+            this.pauseBtn?.btn.setVisible(true);
         });
+
+        this.HPGauge = new HPGauge(this);
+        this.attackBtn = new AttackBtn(this, {});
+        this.pauseBtn = new PauseBtn(this, {});
     }
 }

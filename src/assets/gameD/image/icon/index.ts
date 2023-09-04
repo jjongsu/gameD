@@ -4,6 +4,7 @@ export { default as btnFast1 } from './btn_fast1.png';
 export { default as btnFast2 } from './btn_fast2.png';
 export { default as btnHome } from './btn_home.png';
 export { default as btnPause } from './btn_pause.png';
+export { default as btnPlay } from './play.png';
 export { default as btnRetry } from './btn_retry.png';
 export { default as btnCoinReward } from './coin-reward-btn-x.png';
 export { default as btnCoin } from './coin.png';

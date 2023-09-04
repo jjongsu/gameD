@@ -4,6 +4,7 @@ import Preload from './Scene/Preload';
 import Ready from './Scene/Ready';
 import Loading from './Scene/Loading';
 import End from './Scene/End';
+import PauseScene from './Scene/PauseScene';
 
 export default function GameD() {
     const ref = useRef<HTMLDivElement>(null);
@@ -18,7 +19,7 @@ export default function GameD() {
             type: Phaser.AUTO,
             physics: { default: 'arcade' },
             parent: 'phaser-container',
-            scene: [new Loading(), new Preload(), new Ready(), new Main(), new End()],
+            scene: [new Loading(), new Preload(), new Ready(), new Main(), new PauseScene(), new End()],
         });
     }, []);
     return (

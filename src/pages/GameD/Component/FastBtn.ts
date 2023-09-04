@@ -1,4 +1,4 @@
-import { GameObjects, Physics } from 'phaser';
+import { GameObjects } from 'phaser';
 import Main from '../Scene/Main';
 
 export class fastBtn extends GameObjects.Image {
@@ -10,7 +10,7 @@ export class fastBtn extends GameObjects.Image {
 
     constructor(scene: Main, position: { x?: number; y?: number }, level: 1 | 2) {
         const texture = 'btnFast' + level;
-        const { x = 800, y = 30 } = position;
+        const { x = 860, y = 40 } = position;
         super(scene, x, y, texture);
         this.level = level;
 
