@@ -1,4 +1,4 @@
-import { Math, Physics, Scene } from 'phaser';
+import { GameObjects, Math, Physics, Scene } from 'phaser';
 import Archer from '../GameObject/Archer';
 import { fastBtn } from '../Component/FastBtn';
 import { EnermyA } from '../GameObject/EnermyA';
@@ -15,9 +15,10 @@ export default class Main extends Scene {
     fastBtn?: fastBtn;
     castle?: Physics.Arcade.Image;
     enermyAGroup: EnermyA[] = [];
-    enermyBGroup: EnermyB[] = [];
+    enermyBGroup?: GameObjects.Group;
     HPGauge?: HPGauge;
     pauseBtn?: PauseBtn;
+    region!: GameObjects.Rectangle;
 
     constructor() {
         super({ key: 'main' });
@@ -28,6 +29,9 @@ export default class Main extends Scene {
 
         this.add.image(0, 0, 'background').setOrigin(0, 0);
         this.castle = this.physics.add.image(310, 300, 'castle');
+
+        this.region = this.add.rectangle(350, 0, 500, 540).setOrigin(0, 0).setStrokeStyle(2);
+        this.physics.add.existing(this.region);
 
         const archer1 = new Archer(this, { x: 40, y: 330 });
         const archer2 = new Archer(this, { x: 40, y: 370 });
@@ -66,12 +70,15 @@ export default class Main extends Scene {
         ];
 
         this.fastBtn = new fastBtn(this, {}, 1);
-
+        this.enermyBGroup = this.add.group();
         this.time.addEvent({
             delay: 2000,
             repeat: -1,
             callback: () => {
-                this.enermyBGroup = [...this.enermyBGroup, new EnermyB(this, { y: Math.Between(300, 360) }, this.config?.fastLevel!)];
+                // this.enermyBGroup = [...this.enermyBGroup, new EnermyB(this, { y: Math.Between(300, 360) }, this.config?.fastLevel!)];
+                // this.enermyBGroup.add()
+                const enermyB = new EnermyB(this, { y: Math.Between(300, 360) }, this.config?.fastLevel!);
+                this.enermyBGroup?.add(enermyB.enermy);
             },
         });
 

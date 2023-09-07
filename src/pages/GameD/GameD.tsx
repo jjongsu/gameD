@@ -5,10 +5,21 @@ import Ready from './Scene/Ready';
 import Loading from './Scene/Loading';
 import End from './Scene/End';
 import PauseScene from './Scene/PauseScene';
+import socket from './Communication/Socket/socket';
 
 export default function GameD() {
     const ref = useRef<HTMLDivElement>(null);
     const game = useRef<Phaser.Game>();
+
+    useEffect(() => {
+        if (!socket) return;
+        console.log(socket);
+        socket.connect();
+        socket.on('connection', (data) => console.log(data));
+        socket.emit('data', 'data!!!!!!!');
+
+        socket.on('data', (data) => console.log(data));
+    }, []);
 
     useEffect(() => {
         if (game.current || !ref.current) return;
