@@ -1,10 +1,12 @@
 import EventEmitter from 'eventemitter3';
-import socket from './Socket/socket';
+import socket from './Socket';
+import ai from './AI';
 
 export type TRTCPeerOptions = { room?: string; config?: RTCConfiguration };
 export type TEventNames = 'ready' | 'data' | 'connected' | 'disconnected' | 'ready:complete' | 'ready:text';
 export default class Communication extends EventEmitter<TEventNames> {
     socket;
+    ai;
     isConnect = false;
     otherId = '';
     readyMe = false;
@@ -15,6 +17,7 @@ export default class Communication extends EventEmitter<TEventNames> {
         super();
 
         this.socket = socket;
+        this.ai = ai;
         this._makeEvent();
     }
 
@@ -33,17 +36,12 @@ export default class Communication extends EventEmitter<TEventNames> {
             this.emit('ready:text', { isConnect: false });
         });
 
-        this.on('ready', () => {
-            if (this.isConnect) {
-                this.readyMe = true;
+        this.on('data', (data) => {
+            if (data.to && data.to === 'me') return;
+            if (this.isConnect) this.socket.emit('data', data);
+            else this.ai.emit('data', data);
 
-                this.socket.emit('data', { type: 'ready:other' });
-            } else {
-                this.readyMe = true;
-                this.readyYou = true;
-
-                this.emit('data', { type: 'ready:complete' });
-            }
+            if (data.type === 'ready') this.readyMe = true;
         });
     }
 
@@ -68,10 +66,6 @@ export default class Communication extends EventEmitter<TEventNames> {
         this.socket.on('disconnected', () => {
             this.emit('disconnected');
             console.log('disconnected');
-        });
-
-        this.socket.on('data', (data) => {
-            console.log(data);
         });
     }
 }

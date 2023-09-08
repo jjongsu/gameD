@@ -7,7 +7,7 @@ export default class Ready extends Scene {
     constructor() {
         super({ key: 'ready' });
 
-        this.readyEvent();
+        this._readyEvent();
     }
 
     create() {
@@ -59,52 +59,30 @@ export default class Ready extends Scene {
         });
 
         btnBackground.setInteractive().on('pointerdown', () => {
-            this.next();
+            communication.emit('data', { type: 'ready' });
         });
 
-        this.drawText(communication.isConnect);
+        this._drawText(communication.isConnect);
     }
 
-    drawText(isConnect: boolean) {
+    private _drawText(isConnect: boolean) {
         this.modeText?.destroy(true);
         const _text = `MODE : ${isConnect ? 'P2P' : 'AI'}`;
         this.modeText = this.add.text(this.game.canvas.width - 20, 20, _text, { color: 'black' }).setOrigin(1, 0);
     }
 
-    readyEvent() {
-        // communication.on('ready:complete', () => {
-        //     this.scene.stop('ready');
-        //     this.scene.launch('main');
-        // });
-
+    private _readyEvent() {
         communication.on('ready:text', (data) => {
-            this.drawText(data.isConnect);
+            this._drawText(data.isConnect);
         });
 
         communication.on('data', (data) => {
-            if (data.type === 'ready:complete') {
-                this._goMain();
-            }
-
-            if (data.type === 'ready') {
-                if (!communication.isConnect) {
-                    communication.emit('data', { type: 'ready:complete' });
-                    communication.readyYou = true;
-                    communication.readyMe = true;
-                    this.time.delayedCall(3000, this._goMain);
-                } else {
-                    communication.socket.emit('data', { type: 'ready:other' });
-                }
-            }
+            if (data.type === 'ready:complete') this._next();
         });
     }
 
-    private _goMain() {
+    private _next() {
         this.scene.stop('ready');
         this.scene.launch('main');
-    }
-
-    private next() {
-        communication.emit('data', { type: 'ready' });
     }
 }
