@@ -1,9 +1,13 @@
 import { Scene } from 'phaser';
+import { communication } from '../Communication';
 
 export default class Ready extends Scene {
     btn?: Phaser.GameObjects.Group;
+    modeText?: Phaser.GameObjects.Text;
     constructor() {
         super({ key: 'ready' });
+
+        this.readyEvent();
     }
 
     create() {
@@ -57,10 +61,50 @@ export default class Ready extends Scene {
         btnBackground.setInteractive().on('pointerdown', () => {
             this.next();
         });
+
+        this.drawText(communication.isConnect);
+    }
+
+    drawText(isConnect: boolean) {
+        this.modeText?.destroy(true);
+        const _text = `MODE : ${isConnect ? 'P2P' : 'AI'}`;
+        this.modeText = this.add.text(this.game.canvas.width - 20, 20, _text, { color: 'black' }).setOrigin(1, 0);
+    }
+
+    readyEvent() {
+        // communication.on('ready:complete', () => {
+        //     this.scene.stop('ready');
+        //     this.scene.launch('main');
+        // });
+
+        communication.on('ready:text', (data) => {
+            this.drawText(data.isConnect);
+        });
+
+        communication.on('data', (data) => {
+            if (data.type === 'ready:complete') {
+                this._goMain();
+            }
+
+            if (data.type === 'ready') {
+                if (!communication.isConnect) {
+                    communication.emit('data', { type: 'ready:complete' });
+                    communication.readyYou = true;
+                    communication.readyMe = true;
+                    this.time.delayedCall(3000, this._goMain);
+                } else {
+                    communication.socket.emit('data', { type: 'ready:other' });
+                }
+            }
+        });
+    }
+
+    private _goMain() {
+        this.scene.stop('ready');
+        this.scene.launch('main');
     }
 
     private next() {
-        this.scene.stop('ready');
-        this.scene.launch('main');
+        communication.emit('data', { type: 'ready' });
     }
 }
